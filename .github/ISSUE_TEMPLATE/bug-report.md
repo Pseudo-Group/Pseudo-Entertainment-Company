@@ -4,7 +4,7 @@ about: 프로그래머에 의한 에러 보고서. 예를 들어, NULL 포인터
   경우(결국 메모리 누출로 이어지는)가 버그에 해당됩니다.
 title: "[BUG] Bug Name"
 labels: bug, help wanted, wontfix
-assignees: qjrm1430
+assignees: ''
 
 ---
 
