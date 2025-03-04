@@ -2,7 +2,7 @@
 name: Backlog
 about: 백로그 산정/추가 시 사용
 title: "[#Team Name] Feature Name"
-labels: enhancement, help wanted
+labels: enhancement
 assignees: ''
 
 ---
