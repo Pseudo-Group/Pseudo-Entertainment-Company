@@ -1,0 +1,21 @@
+---
+name: Backlog
+about: 백로그 산정/추가 시 사용
+title: "[#Team Name] Feature Name"
+labels: enhancement
+assignees: ''
+
+---
+
+### Todo List
+- []
+- []
+- [] 
+- [] 
+
+완료된 사항은 꼭 체크해놓기
+
+### 이 내용은 참고한 후 Create 전에 삭제해주세요.
+* "최소" 기능을 기준으로 백로그를 구분하기
+* 기능을 구현하기 위한 작업을 순차(단계)적으로 작성해놓기
+* 해당 팀의 Github Project랑 연동시켜놓기
