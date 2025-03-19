@@ -1,0 +1,14 @@
+[project]
+name = "Pseudo-Entertainment-Company"
+version = "1.0.0"
+requires-python = "^3.10"
+
+[tool.black]
+line-length = 120  # 한 줄의 최대 길이
+target-version = ["py310"]  # 지원하는 Python 버전
+
+[tool.isort]
+profile = "black"  # black 스타일과 호환되도록 설정
+line_length = 120  # 한 줄의 최대 길이
+include_trailing_comma = true  # 마지막 쉼표 추가
+known_third_party = ["wandb"]
