@@ -2,6 +2,13 @@
 # management 모듈 의존성 설치
 #cd /app/data/Pseudo-Entertainment
 #bash agents/management/management_agents.sh
+
+# {
+#   "input": {
+#     "image_url": "https://example.com/image.jpg",
+#     "text_content": "오늘 날씨가 정말 좋네요!"
+#   }
+# }
 cd "$(dirname "$0")/../.."
 uv venv
 
@@ -38,17 +45,8 @@ kill_port() {
   fi
 }
 
-# MCP로 시작하고 PORT로 끝나는 모든 환경변수의 포트에 대해 프로세스 종료
-MCP_PORT_VARS=($(env | grep '^MCP.*PORT=' | cut -d= -f1))
-for var in "${MCP_PORT_VARS[@]}"; do
-  kill_port "${!var}"
-done
-
 # LANGGRAPH_PORT에 해당하는 프로세스 종료
 kill_port "$LANGGRAPH_PORT"
-
-# contents_verify MCP 서버 실행
-uv run agents/management/modules/mcp/mcp_contents_verify_server.py > mcp_server.log 2>&1 &
 
 # LangGraph 서버 실행
 # uv run langgraph dev --port "$LANGGRAPH_PORT" &

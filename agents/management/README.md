@@ -14,7 +14,7 @@
 management/
 ├── modules/            # 모듈 구성 요소
 │   ├── chains.py      # LangChain 체인 정의
-│   ├── conditions.py  # 조건부 라우팅 함수
+
 │   ├── models.py      # 사용하는 LLM 모델 설정
 │   ├── nodes.py       # Workflow 노드 클래스들 정의
 │   ├── persona.py     # 페르소나 관리 기능

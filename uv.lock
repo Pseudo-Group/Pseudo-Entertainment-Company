@@ -1068,14 +1068,12 @@ name = "management"
 version = "0.1.0"
 source = { virtual = "agents/management" }
 dependencies = [
-    { name = "langchain-google-genai" },
     { name = "langchain-mcp-adapters" },
     { name = "python-dotenv" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "langchain-google-genai", specifier = ">=2.0.0" },
     { name = "langchain-mcp-adapters", specifier = ">=0.1.9" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
 ]

@@ -19,3 +19,6 @@ class ManagementState(TypedDict):
     analysis: Optional[str]
     content_text: Optional[str]
     content_type: Optional[str]
+    # 입력 스키마에 포함되지 않아 드롭되던 키들을 명시적으로 허용
+    image_url: Optional[str]
+    text_content: Optional[str]
