@@ -6,10 +6,10 @@ StateGraph를 사용하여 음악 처리를 위한 워크플로우를 구축합�
 """
 
 from langgraph.graph import StateGraph
-
+from langgraph.graph.state import CompiledStateGraph
 from agents.base_workflow import BaseWorkflow
 from agents.music.modules.state import MusicState
-
+from agents.music.modules.nodes import LyricGenerationNode, DiaryGenerationNode, YoutubeSearchNode, YoutubeAnalysisNode, WeatherGenerationNode
 
 class MusicWorkflow(BaseWorkflow):
     """
@@ -23,7 +23,7 @@ class MusicWorkflow(BaseWorkflow):
         super().__init__()
         self.state = state
 
-    def build(self):
+    def build(self) -> CompiledStateGraph:
         """
         음악 Workflow 그래프 구축 메서드
 
@@ -35,22 +35,39 @@ class MusicWorkflow(BaseWorkflow):
             CompiledStateGraph: 컴파일된 상태 그래프 객체
         """
         builder = StateGraph(self.state)
+        
 
-        builder.add_edge("__start__", "__end__")
+        # 노드 생성 및 연결결
+        builder.add_node("diary_generation", DiaryGenerationNode())
+        builder.add_node("weather_generation", WeatherGenerationNode())
+        builder.add_edge("__start__", "diary_generation")
+        builder.add_edge("__start__", "weather_generation")
 
-        # 조건부 에지 추가 예시
-        # builder.add_conditional_edges(
-        #     "call_model",
-        #     # call_model 실행이 완료된 후, 다음 노드(들)는
-        #     # router의 출력을 기반으로 예약됩니다
-        #     router,
-        # )
+        builder.add_node("youtube_search", YoutubeSearchNode())
+        builder.add_node("youtube_analysis", YoutubeAnalysisNode())
+        builder.add_edge("diary_generation", "youtube_search")
+        builder.add_edge("youtube_search", "youtube_analysis")
+
+        builder.add_node("lyric_generation", LyricGenerationNode())
+        builder.add_edge(["youtube_analysis", "weather_generation"], "lyric_generation")
+        builder.add_edge("lyric_generation", "__end__")
 
         workflow = builder.compile()  # 그래프 컴파일
         workflow.name = self.name  # Workflow 이름 설정
 
         return workflow
 
-
-# 음악 Workflow 인스턴스 생성
 music_workflow = MusicWorkflow(MusicState)
+
+if __name__ == "__main__":
+    diary_query = input("일기 생성용 입력: ")
+    lyric_query = input("가사 생성용 입력: ")
+
+    music_workflow = MusicWorkflow(MusicState)
+    graph = music_workflow.build()
+
+    graph.invoke({
+        "diary_query": diary_query,
+        "lyric_query": lyric_query
+    })
+    
