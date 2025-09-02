@@ -1,0 +1,267 @@
+{
+  "2025-07-27T02:52:27.554443": {
+    "comments": [
+      {
+        "comment": "Test",
+        "sentiment": "긍정",
+        "comment_type": "기타",
+        "reply_needed": "아니오",
+        "reason": "의미 없는 테스트성 댓글로, 특별한 상호작용이 필요하지 않습니다."
+      },
+      {
+        "comment": "@mirageee_00 맞아요",
+        "sentiment": "긍정",
+        "comment_type": "팬댓글",
+        "reply_needed": "아니오",
+        "reason": "단순한 동의 표현으로, 개별적인 답글이 필수는 아닙니다."
+      },
+      {
+        "comment": "@joo_bob_1212 당신의 못된 심보",
+        "sentiment": "부정",
+        "comment_type": "악성댓글",
+        "reply_needed": "아니오",
+        "reason": "인신공격성 악성댓글이므로, 무시하거나 삭제하는 것이 좋습니다."
+      },
+      {
+        "comment": "@gangster_joo 아직 제자리 걸음입니다",
+        "sentiment": "부정",
+        "comment_type": "비판",
+        "reply_needed": "고려",
+        "reason": "진척이 없음을 지적하는 내용으로, 아티스트의 상황에 따라 짧은 긍정적 답변(예: '더 노력하겠습니다' 등)을 고려해볼 수 있습니다."
+      },
+      {
+        "comment": "왜 이유없이 화가나지 ?",
+        "sentiment": "부정",
+        "comment_type": "기타",
+        "reply_needed": "아니오",
+        "reason": "본인의 감정을 표현하는 내용으로, 아티스트가 직접 답글할 필요는 없습니다."
+      },
+      {
+        "comment": "소금 넣고 끓는 물에 담구는 그거?",
+        "sentiment": "중립",
+        "comment_type": "질문",
+        "reply_needed": "예",
+        "reason": "게시물 내용과 관련된 명확한 질문으로, 답변을 통해 소통을 강화할 수 있습니다."
+      },
+      {
+        "comment": "저한테 해줬던 봉골레 파스타는 일취월장 하셨나요?? 임쉪??",
+        "sentiment": "긍정",
+        "comment_type": "질문",
+        "reply_needed": "예",
+        "reason": "아티스트의 개인적인 경험 및 기술에 대한 친밀한 질문으로, 답글을 통해 팬과의 유대감을 강화할 수 있습니다."
+      }
+    ]
+  },
+  "2025-07-27T03:00:52.552544": {
+    "comments": [
+      {
+        "comment": "Test",
+        "sentiment": "긍정",
+        "comment_type": "기타",
+        "reply_needed": "아니오",
+        "reason": "테스트성 댓글로, 특별한 의미나 질문이 없어 답장 불필요합니다."
+      },
+      {
+        "comment": "@mirageee_00 맞아요",
+        "sentiment": "긍정",
+        "comment_type": "팬댓글",
+        "reply_needed": "아니오",
+        "reason": "게시물 내용에 대한 단순한 동의 표현으로, 개별적인 답장이 필수는 아닙니다."
+      },
+      {
+        "comment": "@joo_bob_1212 당신의 못된 심보",
+        "sentiment": "부정",
+        "comment_type": "악성댓글",
+        "reply_needed": "아니오",
+        "reason": "아티스트에 대한 인신공격성 악성 댓글이므로 대응하지 않는 것이 좋습니다."
+      },
+      {
+        "comment": "@gangster_joo 아직 제자리 걸음입니다",
+        "sentiment": "부정",
+        "comment_type": "비판",
+        "reply_needed": "고려",
+        "reason": "아티스트의 활동에 대한 부정적인 평가성 댓글입니다. 직접적인 답변보다는 긍정적인 메시지로 대응할지, 혹은 무시할지 고려해볼 수 있습니다."
+      },
+      {
+        "comment": "왜 이유없이 화가나지 ?",
+        "sentiment": "부정",
+        "comment_type": "기타",
+        "reply_needed": "아니오",
+        "reason": "아티스트에게 직접적으로 관련된 내용이 아닌 개인적인 감정 표현으로, 답장 불필요합니다."
+      },
+      {
+        "comment": "소금 넣고 끓는 물에 담구는 그거?",
+        "sentiment": "긍정",
+        "comment_type": "질문",
+        "reply_needed": "예",
+        "reason": "게시물 내용과 관련된 직접적인 질문이므로 답장하는 것이 좋습니다."
+      },
+      {
+        "comment": "저한테 해줬던 봉골레 파스타는 일취월장 하셨나요?? 임쉪??",
+        "sentiment": "긍정",
+        "comment_type": "질문",
+        "reply_needed": "예",
+        "reason": "아티스트와 개인적인 친분이 있는 듯한 팬의 질문으로, 관계를 돈독히 하고 소통을 이어가기 위해 답장하는 것이 좋습니다."
+      }
+    ]
+  },
+  "2025-07-27T03:13:38.989365": {
+    "comments": [
+      {
+        "comment": "Test",
+        "sentiment": "긍정",
+        "comment_type": "기타",
+        "reply_needed": "아니오",
+        "reason": "내용이 불분명하며 단순한 테스트성 댓글로 판단됩니다. 특별한 상호작용이 필요하지 않습니다."
+      },
+      {
+        "comment": "@mirageee_00 맞아요",
+        "sentiment": "긍정",
+        "comment_type": "팬댓글",
+        "reply_needed": "아니오",
+        "reason": "게시물 내용에 대한 긍정적인 공감을 표현하는 댓글입니다. 간단한 동의 표현으로 별도의 답글은 필수는 아닙니다."
+      },
+      {
+        "comment": "@joo_bob_1212 당신의 못된 심보",
+        "sentiment": "부정",
+        "comment_type": "악성댓글",
+        "reply_needed": "아니오",
+        "reason": "악의적인 의도를 담은 비방성 댓글입니다. 악성 댓글에는 대응하지 않는 것이 일반적인 관리 원칙입니다."
+      },
+      {
+        "comment": "@gangster_joo 아직 제자리 걸음입니다",
+        "sentiment": "부정",
+        "comment_type": "비판",
+        "reply_needed": "고려",
+        "reason": "아티스트의 상황이나 진행 상황에 대한 비판적인 시각을 내포하고 있습니다. 공격적인 비판은 아니므로, 상황에 따라 아티스트가 직접 소통하며 오해를 풀거나 입장을 설명하는 것을 고려할 수 있습니다."
+      },
+      {
+        "comment": "왜 이유없이 화가나지 ?",
+        "sentiment": "부정",
+        "comment_type": "기타",
+        "reply_needed": "아니오",
+        "reason": "댓글 작성자 본인의 감정을 표출하는 내용으로, 아티스트에게 직접적으로 관련된 내용은 아닙니다. 개입할 필요가 없습니다."
+      },
+      {
+        "comment": "소금 넣고 끓는 물에 담구는 그거?",
+        "sentiment": "긍정",
+        "comment_type": "질문",
+        "reply_needed": "예",
+        "reason": "게시물 내용과 관련된 구체적인 질문입니다. 팬과의 소통을 위해 답변하여 궁금증을 해소해 주는 것이 좋습니다."
+      },
+      {
+        "comment": "저한테 해줬던 봉골레 파스타는 일취월장 하셨나요?? 임쉪??",
+        "sentiment": "긍정",
+        "comment_type": "질문",
+        "reply_needed": "예",
+        "reason": "아티스트와의 개인적인 경험을 바탕으로 한 친근하고 구체적인 질문입니다. 팬과의 유대감을 강화하고 소통을 활성화하기 위해 반드시 답변해야 합니다."
+      }
+    ]
+  },
+  "2025-07-27T03:15:54.059670": {
+    "comments": [
+      {
+        "comment": "Test",
+        "sentiment": "기타",
+        "comment_type": "기타",
+        "reply_needed": "아니오",
+        "reason": "의미 없는 테스트 댓글로, 특별한 상호작용이 필요하지 않습니다."
+      },
+      {
+        "comment": "@mirageee_00 맞아요",
+        "sentiment": "긍정",
+        "comment_type": "팬댓글",
+        "reply_needed": "아니오",
+        "reason": "게시물 내용에 대한 단순한 동의 표현으로, 별도의 답변이 필수는 아닙니다."
+      },
+      {
+        "comment": "@joo_bob_1212 당신의 못된 심보",
+        "sentiment": "부정",
+        "comment_type": "악성댓글",
+        "reply_needed": "아니오",
+        "reason": "악의적인 비난 댓글로, 대응하지 않는 것이 좋습니다."
+      },
+      {
+        "comment": "@gangster_joo 아직 제자리 걸음입니다",
+        "sentiment": "기타",
+        "comment_type": "기타",
+        "reply_needed": "아니오",
+        "reason": "댓글 작성자의 개인적인 상황에 대한 언급으로 보이며, 아티스트의 답변이 꼭 필요하지는 않습니다."
+      },
+      {
+        "comment": "왜 이유없이 화가나지 ?",
+        "sentiment": "기타",
+        "comment_type": "기타",
+        "reply_needed": "아니오",
+        "reason": "댓글 작성자의 개인적인 감정 표현으로, 아티스트에게 직접적인 답변을 요구하는 질문이 아닙니다."
+      },
+      {
+        "comment": "소금 넣고 끓는 물에 담구는 그거?",
+        "sentiment": "긍정",
+        "comment_type": "질문",
+        "reply_needed": "예",
+        "reason": "게시물 내용과 관련된 직접적인 질문으로, 답변을 통해 팬의 궁금증을 해소하고 소통을 유도할 수 있습니다."
+      },
+      {
+        "comment": "저한테 해줬던 봉골레 파스타는 일취월장 하셨나요?? 임쉪??",
+        "sentiment": "긍정",
+        "comment_type": "질문",
+        "reply_needed": "예",
+        "reason": "아티스트와의 친밀한 관계를 보여주는 개인적인 질문으로, 답변을 통해 팬과의 유대감을 강화하고 긍정적인 상호작용을 이어갈 수 있습니다."
+      }
+    ]
+  },
+  "2025-08-10T23:03:33.843554": {
+    "comments": [
+      {
+        "comment": "Test",
+        "sentiment": "기타",
+        "comment_type": "기타",
+        "reply_needed": "아니오",
+        "reason": "의미 없는 테스트성 댓글로, 개별적인 답변이 필요하지 않습니다."
+      },
+      {
+        "comment": "@mirageee_00 맞아요",
+        "sentiment": "긍정",
+        "comment_type": "팬댓글",
+        "reply_needed": "아니오",
+        "reason": "게시물 내용에 대한 단순한 동의 표현으로, 개별적인 답글은 필수가 아닙니다."
+      },
+      {
+        "comment": "@joo_bob_1212 당신의 못된 심보",
+        "sentiment": "부정",
+        "comment_type": "악성댓글",
+        "reply_needed": "아니오",
+        "reason": "인신공격성 악성 댓글로, 대응하지 않는 것이 바람직합니다."
+      },
+      {
+        "comment": "@gangster_joo 아직 제자리 걸음입니다",
+        "sentiment": "부정",
+        "comment_type": "비판",
+        "reply_needed": "고려",
+        "reason": "발전이 없음을 지적하는 댓글로, 아티스트가 해당 내용에 대해 소통하고자 한다면 답변을 고려할 수 있습니다."
+      },
+      {
+        "comment": "왜 이유없이 화가나지 ?",
+        "sentiment": "부정",
+        "comment_type": "기타",
+        "reply_needed": "아니오",
+        "reason": "개인적인 감정을 표현하는 댓글로, 아티스트가 직접 답변할 필요는 없습니다."
+      },
+      {
+        "comment": "소금 넣고 끓는 물에 담구는 그거?",
+        "sentiment": "기타",
+        "comment_type": "질문",
+        "reply_needed": "예",
+        "reason": "게시물 내용에 대한 구체적인 질문으로, 답변을 통해 팬과의 소통을 강화할 수 있습니다."
+      },
+      {
+        "comment": "저한테 해줬던 봉골레 파스타는 일취월장 하셨나요?? 임쉪??",
+        "sentiment": "긍정",
+        "comment_type": "질문",
+        "reply_needed": "예",
+        "reason": "아티스트의 개인적인 면모와 관련된 친근한 질문으로, 팬과의 유대감을 형성하고 소통하는 좋은 기회입니다."
+      }
+    ]
+  }
+}

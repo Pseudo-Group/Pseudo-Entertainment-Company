@@ -1,8 +1,3 @@
-"""모델 설정 함수 모듈
-
-기본적으로 사용할 모델 인스턴스를 설정하고 생성하고 반환시킵니다.
-"""
-
 from langchain_openai import ChatOpenAI
 
 

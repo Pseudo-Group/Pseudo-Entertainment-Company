@@ -79,7 +79,7 @@ $ uv sync --package <PACKAGE NAME>
 #### 5. LangGraph 앱 실행
 
 ```bash
-$ uvx --from "langgraph-cli[inmem]" --with-editable . langgraph dev
+$ uv run langgraph dev
 ```
 
 ### 서버가 실행되면 다음 URL에서 접근할 수 있습니다:
