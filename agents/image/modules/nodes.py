@@ -274,7 +274,8 @@ class ImageGenerationNode(BaseNode):
     def __init__(self, **kwargs):
         super().__init__(**kwargs) 
         self.client = genai.Client()
-        self.output_folder = "./generated_images"
+        self.model = "gemini-2.5-flash-image-preview"
+        self.output_folder = "Proact0/Act1-Entertainment/agents/image/generated_images"
 
     def _generate_unique_filename(self, extension="png"):
         """고유한 파일명 생성"""
@@ -284,7 +285,7 @@ class ImageGenerationNode(BaseNode):
 
     def execute(self, state: ImageState) -> dict:       
         response = self.client.models.generate_content(
-            model="gemini-2.5-flash-image-preview",
+            model=self.model,
             contents=state['integrated_prompt'],
         )
         
