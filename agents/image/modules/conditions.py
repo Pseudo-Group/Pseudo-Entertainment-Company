@@ -13,6 +13,7 @@ Workflow가 확장됨에 따라 다양한 조건부 라우팅 함수를 이 모�
 
 from typing import Literal
 from langchain_core.messages import AIMessage
+from agents.image.modules.state import ImageState
 
 
 def router(state) -> Literal["__end__", "tools"]:
@@ -63,3 +64,21 @@ def router(state) -> Literal["__end__", "tools"]:
 
     # 도구 호출이 있으면 도구 실행 노드로 라우팅
     return "tools"
+
+
+def router_includes_human(state: ImageState):
+    """
+    ImageState의 `includes_human` 값에 따른 인물 설정 노트 라우팅
+    """
+    # storyboard에서 includes_human 값 확인
+    includes_human = state.get('storyboard', {}).get('includes_human', False)
+    
+    if includes_human:
+        print("=" * 20, "\nCurrent Node: Router Node")
+        print("-> includes_human: True")
+        return ["set_background", "set_style"]  # 사람이 포함된 경우 모델 설정 노드와 병렬
+    else:
+        print("=" * 20, "\nCurrent Node: Router Node")
+        print("-> includes_human: False")
+        return "set_background"     # 포함되지 않은 경우 human 노드 제외
+    

@@ -16,6 +16,7 @@ from langgraph.graph import StateGraph
 from agents.base_workflow import BaseWorkflow
 from agents.image.modules.state import ImageState
 from agents.image.modules.nodes import ConceptDecompositionNode, ConceptDecisionNode, CreateStoryboardNode, LayoutNode, BackgroundNode, StyleNode, PoseNode, PhotographerNode, DirectorNode, ImageGenerationNode
+from agents.image.modules.conditions import router_includes_human
 
 
 class ImageWorkflow(BaseWorkflow):
@@ -40,27 +41,46 @@ class ImageWorkflow(BaseWorkflow):
         builder.add_node("concept_decomposition", ConceptDecompositionNode())
         builder.add_node("concept_decision", ConceptDecisionNode())
         builder.add_node("create_storyboard", CreateStoryboardNode())
-        builder.add_node("set_background", BackgroundNode())
-        builder.add_node("set_layout", LayoutNode())
+
+        # 사람 포함 노드
         builder.add_node("set_style", StyleNode())
         builder.add_node("set_pose", PoseNode())
+
+        # 공통 노드
+        builder.add_node("set_background", BackgroundNode())
+        builder.add_node("set_layout", LayoutNode())
         builder.add_node("set_photographer", PhotographerNode())
-        builder.add_node("prompter", DirectorNode())
-        builder.add_node("image_generation", ImageGenerationNode())
+        builder.add_node("prompt_organizer", DirectorNode())
+        builder.add_node("image_generator", ImageGenerationNode())
         
     
         # 엔트리포인트 설정 및 엣지 연결
         builder.set_entry_point("concept_decomposition")  # 시작점 설정
         builder.add_edge("concept_decomposition", "concept_decision")
         builder.add_edge("concept_decision", "create_storyboard")
-        builder.add_edge("create_storyboard", "set_background")
+
+        # includes_human에 따른 라우팅
+        builder.add_conditional_edges(
+            "create_storyboard",
+            router_includes_human,
+            {
+                "set_background": "set_background",  # False일 때 단일 실행
+                "set_style": "set_style"  # True일 때 병렬 실행 중 하나
+            }
+        )
+
+        # 병렬 경로들
         builder.add_edge("set_background", "set_layout")
-        builder.add_edge("set_layout", "set_style")
         builder.add_edge("set_style", "set_pose")
+    
+        # 자동 합치기: 두 경로 모두 set_photographer로 연결
+        builder.add_edge("set_layout", "set_photographer")
         builder.add_edge("set_pose", "set_photographer")
-        builder.add_edge("set_photographer", "prompter")
-        builder.add_edge("prompter", "image_generation")
-        builder.add_edge("image_generation", "__end__")  # 종료점 연결
+    
+        # 공통 처리
+        builder.add_edge("set_photographer", "prompt_organizer")
+        builder.add_edge("prompt_organizer", "image_generator")
+        builder.add_edge("image_generator", "__end__")
     
         workflow = builder.compile()
         workflow.name = self.name

@@ -161,7 +161,7 @@ def set_director_chain(prompt: str, model: str = get_gemini_llm) -> RunnablePass
       )
 
 
-# Step 5 이미지 생성
+# Step 5 이미지 생성 (사용하지 않음)
 def set_image_generation_chain(prompt: str, model: str = get_gemini_vlm) -> RunnablePassthrough:
       return(
             RunnablePassthrough.assign(
