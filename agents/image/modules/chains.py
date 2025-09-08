@@ -6,12 +6,181 @@ LCEL(LangChain Expression Language)을 사용하여 체인을 구성합니다.
 
 from langchain.schema.runnable import RunnablePassthrough, RunnableSerializable
 from langchain_core.output_parsers import StrOutputParser
-
-from agents.image.modules.models import get_gemini_model
-from agents.image.modules.prompts import get_image_generation_prompt, get_context_prompt
-
 from agents.text.modules.persona import PERSONA
+from agents.image.modules.models import get_gemini_llm, get_gemini_vlm
 
+
+# Step 1 콘셉트 분해
+def set_decomposition_chain(prompt: str, model: str = get_gemini_llm) -> RunnableSerializable:
+    return (
+        RunnablePassthrough.assign(
+            # album_cover_style = lambda x: x["album_cover_style"],
+            # concepts = lambda x: x["concepts"]
+            title = lambda x: x["title"],
+            context = lambda x: x["context"],
+            style = lambda x: x["style"],
+            # information = lambda x: x["information"]
+        )
+        | prompt
+        | model
+        | StrOutputParser()
+    )
+
+
+# Step 1.5 콘셉트 결정
+def set_decision_chain(prompt: str, model: str = get_gemini_llm) -> RunnableSerializable:
+    return (
+        RunnablePassthrough.assign(
+            album_cover_style = lambda x: x["album_cover_style"],
+            concepts = lambda x: x["concepts"]
+            # title = lambda x: x["title"],
+            # context = lambda x: x["context"],
+            # style = lambda x: x["style"],
+            # information = lambda x: x["information"]
+        )
+        | prompt
+        | model
+        | StrOutputParser()
+    )
+
+
+# Step 2 스토리보드
+def set_storyboard_chain(prompt: str, model: str = get_gemini_llm) -> RunnableSerializable:
+    return (
+        RunnablePassthrough.assign(
+            keyword = lambda x: x["keyword"],
+            atmosphere = lambda x: x["atmosphere"],
+            visual_metaphor = lambda x: x["visual_metaphor"],
+            color_texture = lambda x: x["color_texture"]
+        )
+        | prompt
+        | model
+        | StrOutputParser()
+    )
+
+
+# Step 3-A 레이아웃/구도
+def set_layout_chain(prompt: str, model: str = get_gemini_llm) -> RunnableSerializable:
+      return(
+            RunnablePassthrough.assign(
+                  main_theme = lambda x: x["main_theme"],
+                  story_summary = lambda x: x["story_summary"],
+                  mood_tags = lambda x: x["mood_tags"],
+                  dominant_colors = lambda x: x["dominant_colors"],
+                  texture_keywords = lambda x: x["texture_keywords"],
+                  visual_motifs = lambda x: x["visual_motifs"],
+                  includes_human = lambda x: x["includes_human"]
+            )
+            | prompt
+            | model
+            | StrOutputParser()
+      )
+
+
+# Step 3-B 배경 디자인
+def set_background_chain(prompt: str, model: str = get_gemini_llm) -> RunnablePassthrough:
+      return(
+            RunnablePassthrough.assign(
+                  main_theme = lambda x: x["main_theme"],
+                  story_summary = lambda x: x["story_summary"],
+                  mood_tags = lambda x: x["mood_tags"],
+                  dominant_colors = lambda x: x["dominant_colors"],
+                  texture_keywords = lambda x: x["texture_keywords"],
+                  visual_motifs = lambda x: x["visual_motifs"],
+                  includes_human = lambda x: x["includes_human"]
+            )
+            | prompt
+            | model
+            | StrOutputParser()
+      )
+
+
+# Step 3-C 의상 컨셉
+def set_style_chain(prompt: str, model: str = get_gemini_llm) -> RunnablePassthrough:
+      return(
+            RunnablePassthrough.assign(
+                  main_theme = lambda x: x["main_theme"],
+                  story_summary = lambda x: x["story_summary"],
+                  mood_tags = lambda x: x["mood_tags"],
+                  dominant_colors = lambda x: x["dominant_colors"],
+                  texture_keywords = lambda x: x["texture_keywords"],
+                  visual_motifs = lambda x: x["visual_motifs"],
+            )
+            | prompt
+            | model
+            | StrOutputParser()
+      )
+
+
+# Step 3-E 표정, 포징
+def set_pose_chain(prompt: str, model: str = get_gemini_llm) -> RunnablePassthrough:
+      return(
+            RunnablePassthrough.assign(
+                  main_theme = lambda x: x["main_theme"],
+                  story_summary = lambda x: x["story_summary"],
+                  mood_tags = lambda x: x["mood_tags"],
+                  dominant_colors = lambda x: x["dominant_colors"],
+                  texture_keywords = lambda x: x["texture_keywords"],
+                  visual_motifs = lambda x: x["visual_motifs"],
+            )
+            | prompt
+            | model
+            | StrOutputParser()
+      )
+
+
+# Step 3-F 사진작가
+def set_photographer_chain(prompt: str, model: str = get_gemini_llm) -> RunnablePassthrough:
+      return(
+            RunnablePassthrough.assign(
+                  main_theme = lambda x: x["main_theme"],
+                  story_summary = lambda x: x["story_summary"],
+                  mood_tags = lambda x: x["mood_tags"],
+                  dominant_colors = lambda x: x["dominant_colors"],
+                  texture_keywords = lambda x: x["texture_keywords"],
+                  visual_motifs = lambda x: x["visual_motifs"],
+            )
+            | prompt
+            | model
+            | StrOutputParser()
+      )
+
+
+# Step 4 통합 프롬프팅
+def set_director_chain(prompt: str, model: str = get_gemini_llm) -> RunnablePassthrough:
+      return(
+            RunnablePassthrough.assign(
+                  photo_background = lambda x: x["photo_background"],
+                  photo_layout = lambda x: x["photo_layout"],
+                  model_style = lambda x: x["model_style"],
+                  photographer_settings = lambda x: x["photographer_settings"]
+            )
+            | prompt
+            | model
+            | StrOutputParser()
+      )
+
+
+# Step 5 이미지 생성
+def set_image_generation_chain(prompt: str, model: str = get_gemini_vlm) -> RunnablePassthrough:
+      return(
+            RunnablePassthrough.assign(
+                  photo_background = lambda x: x["photo_background"],
+                  photo_layout = lambda x: x["photo_layout"],
+                  model_style = lambda x: x["model_style"],
+                  photographer_settings = lambda x: x["photographer_settings"]
+            )
+            | prompt
+            | model
+            | StrOutputParser()
+      )
+
+
+
+
+"""
+Legacy
+"""
 def set_image_generation_chain() -> RunnableSerializable:
         
         #이미지 생성을 위한 프롬프트 가져오기 
