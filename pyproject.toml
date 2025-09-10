@@ -24,7 +24,7 @@ include = ["agents", "tests"]
 exclude = ["**/__pycache__/*", "**/node_modules/*", ".venv", "**/.venv"]
 
 [tool.uv.workspace]
-members = ["agents/text", "agents/music", "agents/image", "agents/management"]
+members = ["agents/text", "agents/music", "agents/image", "agents/management", "agents/sns_analyzer"]
 
 [tool.ruff]
 exclude = [
