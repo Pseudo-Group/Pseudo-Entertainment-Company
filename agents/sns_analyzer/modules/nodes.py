@@ -109,10 +109,10 @@ class InstagramDataCollectorNode(BaseNode):
 
         # 각 타입별 인사이트 수집
         insight_configs = [
-            ("monthly", ["impressions", "reach"], "days_28"),
+            ("monthly", ["reach"], "days_28"),
             (
                 "daily",
-                ["impressions", "reach", "profile_views", "follower_count"],
+                ["reach", "profile_views", "follower_count"],
                 "day",
             ),
             (
