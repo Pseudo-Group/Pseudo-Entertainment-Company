@@ -68,17 +68,25 @@ def router(state) -> Literal["__end__", "tools"]:
 
 def router_includes_human(state: ImageState):
     """
-    ImageState의 `includes_human` 값에 따른 인물 설정 노트 라우팅
+    ImageState의 `includes_human` 값에 따른 인물 관련 노드 라우팅
+    - True: set_background + set_style + set_hair + set_pose (병렬 시작)
+    - False: set_background만
     """
-    # storyboard에서 includes_human 값 확인
     includes_human = state.get('storyboard', {}).get('includes_human', False)
-    
+    print("=" * 20, "\nCurrent Node: Router Node")
+    print(f"-> includes_human: {includes_human}")
+
     if includes_human:
-        print("=" * 20, "\nCurrent Node: Router Node")
-        print("-> includes_human: True")
-        return ["set_background", "set_style"]  # 사람이 포함된 경우 모델 설정 노드와 병렬
+        return ["set_background", "set_style", "set_hair", "set_pose"]
     else:
-        print("=" * 20, "\nCurrent Node: Router Node")
-        print("-> includes_human: False")
-        return "set_background"     # 포함되지 않은 경우 human 노드 제외
-    
+        return "set_background"
+
+
+def router_ready_all(state: ImageState):
+    """
+    병렬 완료 카운트를 기준으로 다음 단계로 진행 여부를 결정합니다.
+    count >= need이면 "go" 반환, 아직 미만이면 "wait" 반환(자기 자신으로 루프).
+    """
+    count = state.get("merge_ready_count", 0)
+    need = 4 if state.get('storyboard', {}).get('includes_human', False) else 1
+    return "go" if count >= need else "wait"

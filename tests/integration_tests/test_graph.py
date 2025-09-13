@@ -7,13 +7,23 @@
 통합 테스트는 여러 컴포넌트가 함께 작동하는 방식을 검증하며,
 실제 사용 사례와 유사한 시나리오에서 시스템을 테스트합니다.
 
-이 테스트는 LangSmith의 unit 데코레이터를 사용하여 테스트 실행을 추적하고 기록합니다.
+LangSmith가 구성되지 않은 환경(예: 로컬/CI)에서는 인증 오류를 피하기 위해
+이 모듈의 테스트를 건너뜁니다.
 """
 
 import pytest
+import os
 from langsmith import unit
 
 from agents import main_workflow
+
+
+# LangSmith 설정이 없으면 전체 모듈 스킵
+LANGSMITH_CONFIGURED = bool(os.getenv("LANGSMITH_API_KEY"))
+pytestmark = pytest.mark.skipif(
+    not LANGSMITH_CONFIGURED,
+    reason="LangSmith not configured (no LANGSMITH_API_KEY)",
+)
 
 
 @pytest.mark.asyncio

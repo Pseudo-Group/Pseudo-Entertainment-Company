@@ -2,41 +2,133 @@
 이미지 Workflow의 상태를 정의하는 모듈
 
 이 모듈은 이미지 기반 콘텐츠 생성을 위한 Workflow에서 사용되는 상태 정보를 정의합니다.
-LangGraph의 상태 관리를 위한 클래스를 포함합니다.
+base_workflow 스타일의 정적 TypedDict 구조를 따르며, 병렬 합류를 위한 보조 필드(머리 스타일, 머지 카운터)를 추가로 포함합니다.
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Annotated, TypedDict
-
-from langgraph.graph.message import add_messages
+from typing import TypedDict, Dict, List, Any, Optional
 
 
-@dataclass
+"""
+각 노드에서 사용하는 딕셔너리 자료형
+"""
+
+
+class SongInfoDict(TypedDict):
+    title: str
+    context: str
+    style: str
+
+
+class ConceptDict(TypedDict):
+    keyword: List[str]
+    atmosphere: List[str]
+    visual_metaphor: List[str]
+    color_texture: List[Dict[str, str]]
+    album_cover_style: Optional[str]
+
+
+class StoryboardDict(TypedDict):
+    main_theme: str
+    story_summary: str
+    mood_tags: List[str]
+    dominant_colors: List[str]
+    texture_keywords: List[str]
+    visual_motifs: List[str]
+    includes_human: bool
+
+
+class LayoutDict(TypedDict):
+    framing: str
+    composition_rules: List[str]
+    camera_angle: str
+    negative_space: str
+
+
+class BackgroundDict(TypedDict):
+    environment: str
+    lighting: str
+    props: List[str]
+    color_palette: List[str]
+
+
+class ModelStyleDict(TypedDict):
+    clothing_items: List[str]
+    accessories: List[str]
+    color_palette: List[str]
+    textures: List[str]
+    style_summary: str
+
+
+class ModelPoseDict(TypedDict):
+    facial_expression: str
+    gaze: str
+    hand_gestures: str
+    body_posture: str
+    movement: str
+
+
+class ModelHairDict(TypedDict):
+    hair_type: str
+    hair_length: str
+    hair_color: str
+    hair_style: str
+    accessories: List[str]
+
+
+class PhotographerDict(TypedDict):
+    camera: str
+    lens: str
+    focal_length: str
+    aperture: str
+    iso: int
+    shutter_speed: str
+    lighting_setup: List[str]
+
+
+"""
+Agent State
+"""
+
+
 class ImageState(TypedDict):
-    """
-    이미지 Workflow의 상태를 정의하는 TypedDict 클래스
+    # MusicState 필드들
+    information: SongInfoDict
 
-    이미지 기반 콘텐츠 생성을 위한 Workflow에서 사용되는 상태 정보를 정의합니다.
-    LangGraph의 상태 관리를 위한 클래스로, Workflow 내에서 처리되는 데이터의 형태와 구조를 지정합니다.
-    """
+    # Concept Decision
+    album_cover_style: str
+    concepts: List[ConceptDict]
+    final_concept: ConceptDict
 
-    selected_concepts: list  # 콘셉트 분석 결과 목록 (1.5차)
-    response: Annotated[
-        list, add_messages
-    ]  # 응답 메시지 목록 (add_messages로 주석되어 메시지 추가 기능 제공)
-    # 의상 프롬프트 관련 필드
-    adapted_outfit_prompt_input: str
-    outfit_prompt: str
-    refined_outfit_prompt: str
-    # 포즈 프롬프트 관련 필드
-    adapted_pose_prompt_input: str
-    pose_prompt: str
-    refined_pose_prompt: str
-    # 스토리보드 관련 필드
-    storyboard: str
-    adapted_hair_prompt_input: str  # 헤어 스타일링 프롬프트 입력 (사용자의 요청에 따라 생성된 헤어 스타일링 프롬프트)
-    hair_prompt: str
+    # Storyboard
+    storyboard: StoryboardDict
 
-    # 의상 프롬프트 (사용자의 요청에 따라 생성된 의상 스타일링 프롬프트)
+    # Layout & Background
+    photo_layout: LayoutDict
+    photo_background: BackgroundDict
+
+    # Model Settings
+    model_style: ModelStyleDict
+    model_pose: ModelPoseDict
+    # 추가: 헤어 세팅(병렬 분기용)
+    model_hair: ModelHairDict
+
+    # Photographer Settings
+    photographer_settings: PhotographerDict
+
+    # ImageState 기타 필드들 (레거시 호환 및 설명용)
+    content_topic: Optional[str]
+    content_type: Optional[str]
+    context_detail: Optional[str]
+    genre: Optional[str]
+    persona: Optional[str]
+
+    # Integrated Prompt
+    integrated_prompt: str
+
+    # Generated Image
+    generated_image: Optional[str]
+
+    # 병렬 합류를 위한 카운터
+    merge_ready_count: int
