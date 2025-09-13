@@ -53,8 +53,7 @@ Extracted Persona:"""
     return PromptTemplate(
         template=extraction_template,  # 정의된 프롬프트 템플릿
         input_variables=[
-            "content_type",
-            "content_topic",
+            "data",
             "persona_details",
         ],  # 프롬프트에 삽입될 변수들
     )

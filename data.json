@@ -1,0 +1,44 @@
+[
+    {
+      "keyword": "귀환",
+      "atmosphere": "따뜻함, 그리움",
+      "visual_metaphor": "불 켜진 창문이 있는 집",
+      "color_texture": "#F5F5DC, 나무 질감"
+    },
+    {
+      "keyword": "유대감",
+      "atmosphere": "친근함, 연결",
+      "visual_metaphor": "실타래로 이어진 두 개의 오브젝트",
+      "color_texture": "#FFC0CB, 부드러운 털실"
+    },
+    {
+      "keyword": "즐거움",
+      "atmosphere": "신남, 활기",
+      "visual_metaphor": "색종이 조각",
+      "color_texture": "#FFFF00, 반짝이는 글리터"
+    },
+    {
+      "keyword": "무대",
+      "atmosphere": "열정, 에너지",
+      "visual_metaphor": "핀 조명",
+      "color_texture": "#FFA500, 벨벳"
+    },
+    {
+      "keyword": "자유",
+      "atmosphere": "편안함, 해방감",
+      "visual_metaphor": "깃털",
+      "color_texture": "#E6E6FA, 쉬폰"
+    },
+    {
+      "keyword": "진심",
+      "atmosphere": "감동, 울림",
+      "visual_metaphor": "손글씨 편지",
+      "color_texture": "#FAF0E6, 종이"
+    },
+    {
+      "keyword": "향수",
+      "atmosphere": "회상, 그리움",
+      "visual_metaphor": "오래된 사진",
+      "color_texture": "#A9A9A9, 빛바랜 색감"
+    }
+  ]

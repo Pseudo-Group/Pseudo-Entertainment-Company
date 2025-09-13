@@ -11,52 +11,52 @@
 예를 들어, 이미지 전처리, 이미지 특성 추출, 데이터 변환 등의 기능을 구현할 수 있습니다.
 """
 
-# from typing import Dict, Any, Optional
-# from PIL import Image
+from typing import Dict, Any, Optional
+from PIL import Image
 
 
-# def extract_image_metadata(file_path: str) -> Optional[Dict[str, Any]]:
-#     """
-#     이미지 파일에서 메타데이터를 추출합니다.
-#
-#     Args:
-#         file_path (str): 이미지 파일 경로
-#
-#     Returns:
-#         Optional[Dict[str, Any]]: 추출된 메타데이터 (크기, 형식, 모드 등)
-#     """
-#     try:
-#         with Image.open(file_path) as img:
-#             return {
-#                 "format": img.format,
-#                 "mode": img.mode,
-#                 "size": img.size,
-#                 "width": img.width,
-#                 "height": img.height,
-#             }
-#     except Exception as e:
-#         print(f"이미지 메타데이터 추출 중 오류 발생: {e}")
-#         return None
+def extract_image_metadata(file_path: str) -> Optional[Dict[str, Any]]:
+    """
+    이미지 파일에서 메타데이터를 추출합니다.
+
+    Args:
+        file_path (str): 이미지 파일 경로
+
+    Returns:
+        Optional[Dict[str, Any]]: 추출된 메타데이터 (크기, 형식, 모드 등)
+    """
+    try:
+        with Image.open(file_path) as img:
+            return {
+                "format": img.format,
+                "mode": img.mode,
+                "size": img.size,
+                "width": img.width,
+                "height": img.height,
+            }
+    except Exception as e:
+        print(f"이미지 메타데이터 추출 중 오류 발생: {e}")
+        return None
 
 
-# def resize_image(file_path: str, width: int, height: int, output_path: str) -> bool:
-#     """
-#     이미지 크기를 조정합니다.
-#
-#     Args:
-#         file_path (str): 원본 이미지 파일 경로
-#         width (int): 조정할 너비
-#         height (int): 조정할 높이
-#         output_path (str): 결과 이미지 저장 경로
-#
-#     Returns:
-#         bool: 성공 여부
-#     """
-#     try:
-#         with Image.open(file_path) as img:
-#             resized_img = img.resize((width, height))
-#             resized_img.save(output_path)
-#             return True
-#     except Exception as e:
-#         print(f"이미지 크기 조정 중 오류 발생: {e}")
-#         return False
+def resize_image(file_path: str, width: int, height: int, output_path: str) -> bool:
+    """
+    이미지 크기를 조정합니다.
+
+    Args:
+        file_path (str): 원본 이미지 파일 경로
+        width (int): 조정할 너비
+        height (int): 조정할 높이
+        output_path (str): 결과 이미지 저장 경로
+
+    Returns:
+        bool: 성공 여부
+    """
+    try:
+        with Image.open(file_path) as img:
+            resized_img = img.resize((width, height))
+            resized_img.save(output_path)
+            return True
+    except Exception as e:
+        print(f"이미지 크기 조정 중 오류 발생: {e}")
+        return False

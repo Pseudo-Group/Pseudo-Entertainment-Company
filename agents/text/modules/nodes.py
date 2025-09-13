@@ -21,8 +21,7 @@ class PersonaExtractionNode(BaseNode):
 
     def execute(self, state: TextState) -> dict:
         """
-        주어진 상태(state)에서 content_topic과 content_type을 추출하여
-        페르소나 추출 체인에 전달하고, 결과를 응답으로 반환합니다.
+        주어진 상태(state)에서 핵심 키워드와 페르소나를 추출하여, 이미지 생성 노드에 전달합니다.
         """
         # 페르소나 추출 체인 실행
         extracted_persona = self.chain.invoke(
@@ -37,3 +36,6 @@ class PersonaExtractionNode(BaseNode):
 
         # 추출된 페르소나를 응답으로 반환
         return {"response": extracted_persona}
+    
+
+    
