@@ -5,20 +5,28 @@
 StateGraph를 사용하여 이미지 처리를 위한 워크플로우를 구축합니다.
 """
 
+import os
+import sys
+
+# 프로젝트 루트 디렉토리를 sys.path에 추가
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+sys.path.insert(0, project_root)
+
 from langgraph.graph import StateGraph
 
 from agents.base_workflow import BaseWorkflow
+from agents.image.modules.conditions import router_includes_human
 from agents.image.modules.nodes import (
-    concept_adapter_for_hair_node,
-    concept_adapter_for_outfit_node,
-    concept_adapter_for_pose_node,
-    generate_hair_prompt_node,
-    generate_outfit_prompt_node,
-    generate_pose_prompt_node,
-    generate_storyboard_node,
-    refine_outfit_prompt_node,
-    refine_outfit_prompt_with_llm_node,
-    refine_pose_prompt_with_llm_node,
+    BackgroundNode,
+    ConceptDecisionNode,
+    ConceptDecompositionNode,
+    CreateStoryboardNode,
+    DirectorNode,
+    ImageGenerationNode,
+    LayoutNode,
+    PhotographerNode,
+    PoseNode,
+    StyleNode,
 )
 from agents.image.modules.state import ImageState
 
@@ -34,66 +42,157 @@ class ImageWorkflow(BaseWorkflow):
     def __init__(self, state):
         super().__init__()
         self.state = state
-        self.name = "image_workflow"  # ← 여기 추가
 
     def build(self):
         """
         이미지 Workflow 그래프 구축 메서드
-
-        StateGraph를 사용하여 이미지 처리를 위한 Workflow 그래프를 구축합니다.
-        현재는 간단한 구조로 시작 노드에서 종료 노드로 직접 연결되어 있으며,
-        추후 이미지 생성 노드 등을 추가하여 확장할 수 있습니다.
-
-        Returns:
-            CompiledStateGraph: 컴파일된 상태 그래프 객체
         """
         builder = StateGraph(self.state)
 
-        builder.add_node("generate_storyboard", generate_storyboard_node)
-        # 의상 프롬프트 생성 노드 추가
-        builder.add_node("adapt_outfit_concept", concept_adapter_for_outfit_node)
-        builder.add_node("generate_outfit_prompt", generate_outfit_prompt_node)
-        builder.add_node("refine_outfit_prompt_rule", refine_outfit_prompt_node)
-        builder.add_node("refine_outfit_prompt_llm", refine_outfit_prompt_with_llm_node)
+        # 노드 추가
+        builder.add_node("concept_decomposition", ConceptDecompositionNode())
+        builder.add_node("concept_decision", ConceptDecisionNode())
+        builder.add_node("create_storyboard", CreateStoryboardNode())
 
-        # 포즈 프롬프트 생성 노드 추가
-        builder.add_node("adapt_pose_concept", concept_adapter_for_pose_node)
-        builder.add_node("generate_pose_prompt", generate_pose_prompt_node)
-        builder.add_node("refine_pose_prompt_llm", refine_pose_prompt_with_llm_node)
+        # 사람 포함 노드
+        builder.add_node("set_style", StyleNode())
+        builder.add_node("set_pose", PoseNode())
 
-        # 헤어 프롬프트 생성 노드 추가
-        builder.add_node("adapt_hair_concept", concept_adapter_for_hair_node)
-        builder.add_node("generate_hair_prompt", generate_hair_prompt_node)
+        # 공통 노드
+        builder.add_node("set_background", BackgroundNode())
+        builder.add_node("set_layout", LayoutNode())
+        builder.add_node("set_photographer", PhotographerNode())
+        builder.add_node("prompt_organizer", DirectorNode())
+        builder.add_node("image_generator", ImageGenerationNode())
 
-        # Edge 설정
-        builder.add_edge("__start__", "generate_storyboard")
-        # builder.add_edge("generate_storyboard", "adapt_outfit_concept")
-        builder.add_edge("generate_storyboard", "adapt_hair_concept")
-        # builder.add_edge("generate_storyboard", "adapt_pose_concept")
-        # builder.add_edge("__start__", "adapt_outfit_concept")
-        # builder.add_edge("__start__", "adapt_pose_concept")
+        # 엔트리포인트 설정 및 엣지 연결
+        builder.set_entry_point("concept_decomposition")  # 시작점 설정
+        builder.add_edge("concept_decomposition", "concept_decision")
+        builder.add_edge("concept_decision", "create_storyboard")
 
-        # outfit
-        builder.add_edge("adapt_outfit_concept", "generate_outfit_prompt")
-        builder.add_edge("generate_outfit_prompt", "refine_outfit_prompt_rule")
-        builder.add_edge("generate_outfit_prompt", "refine_outfit_prompt_llm")
-        builder.add_edge("refine_outfit_prompt_rule", "__end__")
-        builder.add_edge("refine_outfit_prompt_llm", "__end__")
+        # includes_human에 따른 라우팅
+        builder.add_conditional_edges(
+            "create_storyboard",
+            router_includes_human,
+            {
+                "set_background": "set_background",  # False일 때 단일 실행
+                "set_style": "set_style",  # True일 때 병렬 실행 중 하나
+            },
+        )
 
-        # pose
-        builder.add_edge("adapt_pose_concept", "generate_pose_prompt")
-        builder.add_edge("generate_pose_prompt", "refine_pose_prompt_llm")
-        builder.add_edge("refine_pose_prompt_llm", "__end__")
+        # 병렬 경로들
+        builder.add_edge("set_background", "set_layout")
+        builder.add_edge("set_style", "set_pose")
 
-        # hair
-        builder.add_edge("adapt_hair_concept", "generate_hair_prompt")
-        builder.add_edge("generate_hair_prompt", "__end__")
+        # 자동 합치기: 두 경로 모두 set_photographer로 연결
+        builder.add_edge("set_layout", "set_photographer")
+        builder.add_edge("set_pose", "set_photographer")
 
-        workflow = builder.compile()  # 그래프 컴파일
-        workflow.name = self.name  # Workflow 이름 설정
+        # 공통 처리
+        builder.add_edge("set_photographer", "prompt_organizer")
+        builder.add_edge("prompt_organizer", "image_generator")
+        builder.add_edge("image_generator", "__end__")
+
+        workflow = builder.compile()
+        workflow.name = self.name
 
         return workflow
 
 
-# 이미지 Workflow 인스턴스 생성
-image_workflow = ImageWorkflow(ImageState)
+# Export compiled graph for LangGraph server (import-safe; no side effects)
+image_workflow = ImageWorkflow(ImageState).build()
+
+
+initial_state = {
+    "information": {
+        "title": "Home sweet home",
+        "context": """
+        You say it's changed
+        Show must go on, behave
+        오랜만에 옛 노래해
+        I'm feelin' like I never left
+        (That's right) I never left
+        But you ain't know, O.K then lights, camera
+        Act like you know
+        Don't play on me, no, we're
+        Airbnb, you're homeless
+        혼비백산-해진-미-장센 (Mise-en-scène)
+        도레미파시도 (Now, you know it)
+        두껍아 두껍아 came with the troops
+        뜯고 맛보고 즐기고 big bang when I shoot
+        King in the zoo, he gotta do what I do
+        One of one, not of them (Mirror)
+        Man in the views aimin' at you
+        Yeah, I'm aiming at a man, and amen, achoo
+        Bless you, all cleaned house, fu
+        Golden days are still alive
+        외롭다는 말하지 마
+        내가 있는 곳, 네가 있을 곳
+        The place that I belong
+        Home sweet home
+        Home sick home
+        Well I said, I would be back
+        And I'd never let you go
+        Pick a petal off a flower
+        Daze you love me nope?
+        Well I said, I would be back
+        And I'd never let you go
+        Pick a petal off a flower
+        Do you love me or (stop!)
+        Winner, winner chicken killer, 삼계탕 dinner
+        하나 둘 set down (one, two, step) 'fantastic'한 팀워크
+        Not mini, 많이 'More'
+        Rock, scissors, paper, toast
+        This is how we do it, just do it, let's do it y'all
+        Work, work 월화수목금토- 일
+        They gon' wait til' I'm gone
+        So I came, I saw, I won
+        G just D-word is my bond
+        나 무대로 올라, coup d'e shit
+        단숨에 호흡곤란, hook catch this
+        아 '무제' 도 몰라? bull as shit
+        Whatever, now or never
+        Golden days are still alive
+        외롭다는 말하지 마
+        네가 있을 곳에 내가 있는 걸
+        The place that I belong
+        Home sweet home
+        Home sick home
+        Well I said, I would be back
+        And i'd never let you go
+        Pick a petal off a flower
+        Daze you love me nope?
+        Well I said, I would be back
+        And i'd never let you go
+        Pick a petal off a flower
+        Do you love me or (stop!)
+        We alike dead or alive, your life? Still life
+        It's so nice, I missed you a lot
+        You're welcome back home, wherever you are
+        We alike dead or alive, your life is still with me
+        Livin' good life, day or nights
+        The highlight, it's about time to 'rock-on'
+        Home sweet home
+        Home sick home
+        Well, I said, I would be back
+        And I'd never let you go
+        Pick a petal off a flower
+        Daze, you love me, nope?
+        Well, I said, I would be back
+        And I'd never let you go
+        Pick a petal off a flower
+        Do you love me or (Stop)
+        """,
+        "style": """
+        'HOME SWEET HOME'은 곡 제목 그대로 "즐거운 나의 집"이라는 의미로, "즐거운 나의 집"인 팬들 곁으로 돌아왔다는 메시지를 전달하며 팬들과의 깊은 유대감을 상징적으로 표현했다. 팬들과 대중의 곁을 한순간도 떠난 적이 없다는 메시지를 담아, 무대 위에서 자유롭게 뛰놀며 즐기는 듯한 가사와 리듬을 통해 듣는 이들에게 즐거움을 선사한다.
+        """,
+    },
+    "album_cover_style": "바쁜 도시 생활에 지쳐 고향 집으로 돌아와 느끼는 편안함과 추억",
+}
+
+
+# Local demo runner (only when executed directly)
+if __name__ == "__main__":
+    work = ImageWorkflow(ImageState).build()
+    result = work.invoke(initial_state)
+    print(result)
